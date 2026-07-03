@@ -13,10 +13,9 @@ resource "aws_instance" "ec2_instance-public" {
     tags = {
       Name = "${var.env}-${each.key}"
     }
-    user_data = each.value.user_data
-    vpc_security_group_ids = [aws_security_group.sg.id]
+    vpc_security_group_ids = [aws_security_group.sg-public.id]
     root_block_device {
-        volume_size = var.ec2_root_volume_size
+        volume_size = 10
     }
 }
 
@@ -31,8 +30,8 @@ resource "aws_instance" "ec2_instance-private" {
       Name = "${var.env}-${each.key}"
     }
     user_data = each.value.user_data
-    vpc_security_group_ids = [aws_security_group.sg.id]
+    vpc_security_group_ids = [aws_security_group.sg-private.id]
     root_block_device {
-        volume_size = var.ec2_root_volume_size
+        volume_size = 20
     }
 }

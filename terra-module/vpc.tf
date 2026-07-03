@@ -91,39 +91,100 @@ resource "aws_route_table_association" "rt_association-private" {
     route_table_id = aws_route_table.rt-private.id
 }
 
-resource "aws_security_group" "sg" {
+resource "aws_security_group" "sg-public" {
     vpc_id      = aws_vpc.aws_vpc.id
     tags = {
-        Name = "${var.env}-${var.vpc_name}-sg"
+        Name = "${var.env}-${var.vpc_name}-sg-public"
         Environment = var.env
     }
-
     ingress {
-        from_port   = var.ec2_ingress_ssh_port
-        to_port     = var.ec2_ingress_ssh_port
+        from_port   = 22
+        to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = var.ec2_ssh_cidr_blocks
+        cidr_blocks = var.ingress_ssh_cidr_blocks-public
     }
-
-    ingress {
-        from_port   = var.ec2_ingress_http_port
-        to_port     = var.ec2_ingress_http_port
-        protocol    = "tcp"
-        cidr_blocks = var.ec2_http_cidr_blocks
-    }
-
-    ingress {
-        from_port   = var.ec2_ingress_https_port
-        to_port     = var.ec2_ingress_https_port
-        protocol    = "tcp"
-        cidr_blocks = var.ec2_https_cidr_blocks
-    }
-
     egress {
-        from_port   = var.ec2_egress_all_port
-        to_port     = var.ec2_egress_all_port
+        from_port   = 0 
+        to_port     = 0
         protocol    = "-1"
-        cidr_blocks = var.ec2_egress_all_cidr_blocks
+        cidr_blocks = var.allow_cidr_blocks
     }
 }
 
+resource "aws_security_group" "sg-private" {
+    vpc_id      = aws_vpc.aws_vpc.id
+    tags = {
+        Name = "${var.env}-${var.vpc_name}-sg-private"
+        Environment = var.env
+    }
+    ingress {
+        from_port   = 22    
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = var.ingress_ssh_cidr_blocks-private
+    }
+    ingress {
+        from_port   = 80
+        to_port     = 80
+        protocol    = "tcp"
+        cidr_blocks = var.allow_cidr_blocks
+    }
+    ingress {
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
+        cidr_blocks = var.allow_cidr_blocks
+    }
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = var.allow_cidr_blocks
+    }
+}
+
+resource "aws_security_group" "sg-lb" {
+    vpc_id      = aws_vpc.aws_vpc.id
+    tags = {
+        Name = "${var.env}-${var.vpc_name}-sg-lb"
+        Environment = var.env
+    }
+    ingress {
+        from_port   = 80
+        to_port     = 80
+        protocol    = "tcp"
+        cidr_blocks = var.allow_cidr_blocks
+    }
+    ingress {
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
+        cidr_blocks = var.allow_cidr_blocks
+    }
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = var.allow_cidr_blocks
+    }
+}
+
+resource "aws_security_group" "sg-rds" {
+    vpc_id      = aws_vpc.aws_vpc.id
+    tags = {
+        Name = "${var.env}-${var.vpc_name}-sg-rds"
+        Environment = var.env
+    }
+        ingress {
+        from_port   = 3306
+        to_port     = 3306
+        protocol    = "tcp"
+        cidr_blocks = var.rds_allow_cidr_blocks
+    }
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = var.allow_cidr_blocks
+    }
+}

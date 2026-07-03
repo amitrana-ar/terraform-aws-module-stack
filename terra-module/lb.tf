@@ -2,7 +2,7 @@ resource "aws_lb" "terraform-lb" {
     name               = "${var.env}-${var.loadbalancer-name}"
     internal           = false
     load_balancer_type = var.loadbalancer_type
-    security_groups    = [aws_security_group.sg.id]
+    security_groups    = [aws_security_group.sg-lb.id]
     subnets            = values(aws_subnet.vpc-subnet-public)[*].id
     enable_deletion_protection = false
     tags = {

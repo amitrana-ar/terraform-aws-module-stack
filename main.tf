@@ -8,28 +8,17 @@ module "dev-infra" {
             user_data = file("./userdata/apache-install.sh")
         }
     }
-    ec2_key_pair_name = "keyname"
-    ec2_key_pair_public_key = file("./userdata/keyname.pub")
+    ec2_key_pair_name = "aws-keypair-mumbai"
+    ec2_key_pair_public_key = file("./userdata/aws-keypair-mumbai.pub")
     vpc_name = "artechworld"
     s3_bucket = "artechworld-tf-4709"   
     loadbalancer_type = "application"
     loadbalancer-name = "artechworld-tf-lb"
-}
-
-module "prod-infra" {
-    source = "./terra-module"
-    env = "prod"
-    ec2_instance_type = {
-        apache-instance = {
-            ami = "ami-006f82a1d5a27da54"
-            type = "t2.medium"
-            user_data = file("./userdata/apache-install.sh")
-        }
-    }
-    ec2_key_pair_name = "keyname"
-    ec2_key_pair_public_key = file("./userdata/keyname.pub")
-    s3_bucket = "prod-ar-tf-4709"   
-    vpc_name = "artechworld"
-    loadbalancer_type = "application"
-    loadbalancer-name = "artechworld-tf-lb"
+    aws_db_name = "artechworldb"
+    aws_rds_name = "artechworld-rds"
+    aws_rds_username = "admin"
+    aws_rds_password = "password123"
+    aws_rds_engine = "mysql"
+    aws_rds_engine_version = "8.0"
+    aws_rds_instance_class = "db.t3.micro"
 }
