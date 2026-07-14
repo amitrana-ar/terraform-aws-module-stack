@@ -14,11 +14,9 @@ module "dev-infra" {
     s3_bucket = "artechworld-tf-4709"   
     loadbalancer_type = "application"
     loadbalancer-name = "artechworld-tf-lb"
-    aws_db_name = "artechworldb"
-    aws_rds_name = "artechworld-rds"
-    aws_rds_username = "admin"
-    aws_rds_password = "password123"
-    aws_rds_engine = "mysql"
-    aws_rds_engine_version = "8.0"
-    aws_rds_instance_class = "db.t3.micro"
+    rds_name = "artechworld"
+    rds_db_name = "devartechworlddb"
+    rds_db_username = var.rds_db_username
+    rds_db_password = var.rds_db_password
+    rds_instance_class = "db.t3.micro"
 }

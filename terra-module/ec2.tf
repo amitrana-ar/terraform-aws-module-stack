@@ -31,6 +31,7 @@ resource "aws_instance" "ec2_instance-private" {
     }
     user_data = each.value.user_data
     vpc_security_group_ids = [aws_security_group.sg-private.id]
+    
     root_block_device {
         volume_size = 20
     }

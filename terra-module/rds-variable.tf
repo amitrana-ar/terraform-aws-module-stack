@@ -1,34 +1,38 @@
-variable "aws_rds_name" {
+variable "rds_name" {
   type = string
   description = "This is the name of RDS"
 }
 
-variable "aws_db_name" {
+variable "rds_db_name" {
   type = string
   description = "This is the database name of RDS"
 }
 
-variable "aws_rds_username" {
+variable "rds_db_username" {
   type = string
-  description = "This is the username of RDS"
+  description = "This is the database username of RDS"
+  sensitive = true
 }
 
-variable "aws_rds_password" {
+variable "rds_db_password" {
   type = string
-  description = "This is the password of RDS"
+  description = "This is the database password of RDS"
+  sensitive = true  
 }
 
-variable "aws_rds_engine" {
-  type = string
-  description = "This is the engine of RDS"
-}
-
-variable "aws_rds_engine_version" {
-  type = string
-  description = "This is the engine version of RDS"
-}
-
-variable "aws_rds_instance_class" {
+variable "rds_instance_class" {
   type = string
   description = "This is the instance class of RDS"
+}
+
+variable "rds_storage_size" {
+  type = number
+  description = "This is the storage size of RDS"
+  default = 20
+}
+
+variable "rds_storage_type" {
+  type = string
+  description = "This is the storage type of RDS"
+  default = "gp2"
 }

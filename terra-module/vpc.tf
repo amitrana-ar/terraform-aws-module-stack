@@ -176,10 +176,10 @@ resource "aws_security_group" "sg-rds" {
         Environment = var.env
     }
         ingress {
-        from_port   = 3306
+        from_port   = 3306 #SQL PORT
         to_port     = 3306
         protocol    = "tcp"
-        cidr_blocks = var.rds_allow_cidr_blocks
+        security_groups = [aws_security_group.sg-private.id]
     }
     egress {
         from_port   = 0

@@ -46,5 +46,5 @@ variable "allow_cidr_blocks" {
 
 variable "rds_allow_cidr_blocks" {
     type = list(string)
-    default = ["192.168.1.1/32"]
+    default = ["0.0.0.0/0"]
 }
